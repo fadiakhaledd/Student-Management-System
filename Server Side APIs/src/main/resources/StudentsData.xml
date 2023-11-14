@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <University>
-    <Student ID="20200165">
-        <Address>123 Main Street</Address>
-        <FirstName>John</FirstName>
-        <GPA>3.6</GPA>
-        <Gender>Male</Gender>
-        <LastName>Doe</LastName>
-        <Level>3</Level>
-    </Student>
     <Student ID="1278">
         <Address>456 Oak Avenue</Address>
         <FirstName>Jane</FirstName>
@@ -31,14 +23,6 @@
         <Gender>Male</Gender>
         <LastName>Doe</LastName>
         <Level>3</Level>
-    </Student>
-    <Student ID="13278">
-        <Address>456 Oak Avenue</Address>
-        <FirstName>Jane</FirstName>
-        <GPA>3.0</GPA>
-        <Gender>Female</Gender>
-        <LastName>Doe</LastName>
-        <Level>4</Level>
     </Student>
     <Student ID="83892">
         <Address>789 Pine Road</Address>

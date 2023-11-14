@@ -5,7 +5,6 @@ import com.example.studentmanagementsystem.Models.University;
 import com.example.studentmanagementsystem.Utils.XMLUtils;
 import com.example.studentmanagementsystem.dtos.StudentDto;
 import jakarta.xml.bind.JAXBException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,8 +40,9 @@ public class UniversityService {
         xmlUtils.convertObjectToXML(this.universityRepository);
     }
 
-    public void deleteStudent(String id) {
-        // pass
+    public void deleteStudent(Long id) throws JAXBException {
+        this.universityRepository.removeStudent(id);
+        xmlUtils.convertObjectToXML(this.universityRepository);
     }
 
     public List<StudentDto> getAllStudents() {
@@ -68,9 +68,9 @@ public class UniversityService {
 
         List<Student> intersection = new ArrayList<>();
 
-        if((firstnameFilter.size() != 0) && (gpaFilter.size() != 0)) {
-            for(Student student : firstnameFilter){
-                if(gpaFilter.contains(student)){
+        if ((firstnameFilter.size() != 0) && (gpaFilter.size() != 0)) {
+            for (Student student : firstnameFilter) {
+                if (gpaFilter.contains(student)) {
                     intersection.add(student);
                 }
             }
@@ -78,7 +78,7 @@ public class UniversityService {
         return mapListOfStudents(intersection);
     }
 
-    private List<StudentDto> mapListOfStudents (List<Student> students) {
+    private List<StudentDto> mapListOfStudents(List<Student> students) {
         List<StudentDto> studentsDto = new ArrayList<>();
         for (Student student : students) {
             StudentDto studentDto1 = studentService.convertStudentToStudentDto(student);

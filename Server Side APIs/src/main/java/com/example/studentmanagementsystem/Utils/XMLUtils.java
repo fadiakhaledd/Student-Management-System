@@ -10,11 +10,11 @@ import jakarta.xml.bind.Unmarshaller;
 import java.io.File;
 
 public class XMLUtils {
-    private final JAXBContext jaxbContext;
     private static final String FILE_PATH = "src\\main\\resources\\StudentsData.xml";
     private static final File xmlFile = new File(FILE_PATH);
-
+    private final JAXBContext jaxbContext;
     private final University university;
+
     public XMLUtils() throws JAXBException {
         jaxbContext = JAXBContext.newInstance(University.class, Student.class);
         this.university = convertXMLToObject();
@@ -29,7 +29,7 @@ public class XMLUtils {
     // Unmarshalling: Converting XML to Java object. (Deserialization)
     public University convertXMLToObject() throws JAXBException {
 
-       Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
         if (!xmlFile.exists() || xmlFile.length() == 0) {
             return new University();

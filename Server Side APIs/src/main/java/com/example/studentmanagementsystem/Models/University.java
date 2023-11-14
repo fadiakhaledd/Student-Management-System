@@ -4,7 +4,8 @@ import jakarta.xml.bind.ValidationException;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement(name = "University")
 public class University {
@@ -49,5 +50,12 @@ public class University {
             }
         }
         return students;
+    }
+
+    public void removeStudent(Long id) {
+        boolean removed = studentsList.removeIf(student -> student.getID().equals(id));
+        if (!removed) {
+            throw new RuntimeException("Student with ID: " + id + " does not exist");
+        }
     }
 }

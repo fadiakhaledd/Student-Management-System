@@ -1,6 +1,5 @@
 package com.example.studentmanagementsystem.Controllers;
 
-import com.example.studentmanagementsystem.Models.Student;
 import com.example.studentmanagementsystem.Services.UniversityService;
 import com.example.studentmanagementsystem.dtos.AddStudentsDTO;
 import com.example.studentmanagementsystem.dtos.StudentDto;
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,17 +37,18 @@ public class UniversityController {
                     .badRequest()
                     .body("Number of students in the list does not match the specified number.");
         }
-        try{
+        try {
             universityService.addStudents(requestDto.studentsList);
             return ResponseEntity.ok().body("Students added successfully.");
-        }  catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("Students could not be added. " + e.getMessage());
         }
     }
 
     @GetMapping(value = "/")
-    public ResponseEntity<Object>  getAllStudents(@RequestParam(value = "firstname", required = false) String firstName,
-                                                  @RequestParam(value = "gpa", required = false) Float gpa) {
+    public ResponseEntity<Object> getAllStudents(
+            @RequestParam(value = "firstname", required = false) String firstName,
+            @RequestParam(value = "gpa", required = false) Float gpa) throws JAXBException {
         if (firstName != null && gpa != null) {
 
             List<StudentDto> studentsByFirstNameAndGPA = universityService.getStudentsByFirstNameAndGPA(firstName, gpa);
@@ -67,6 +65,16 @@ public class UniversityController {
         } else {
             List<StudentDto> allStudents = universityService.getAllStudents();
             return ResponseEntity.ok().body(allStudents);
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Object> DeleteStudent(@PathVariable Long id) throws JAXBException {
+        try {
+            universityService.deleteStudent(id);
+            return ResponseEntity.ok().body("Student deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Student could not be deleted. " + e.getMessage());
         }
     }
 }
