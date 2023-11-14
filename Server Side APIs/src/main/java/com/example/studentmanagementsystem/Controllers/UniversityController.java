@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -44,6 +45,28 @@ public class UniversityController {
             return ResponseEntity.ok().body("Students added successfully.");
         }  catch (Exception e){
             return ResponseEntity.badRequest().body("Students could not be added. " + e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "/")
+    public ResponseEntity<Object>  getAllStudents(@RequestParam(value = "firstname", required = false) String firstName,
+                                                  @RequestParam(value = "gpa", required = false) Float gpa) {
+        if (firstName != null && gpa != null) {
+
+            List<StudentDto> studentsByFirstNameAndGPA = universityService.getStudentsByFirstNameAndGPA(firstName, gpa);
+            return ResponseEntity.ok().body(studentsByFirstNameAndGPA);
+
+        } else if (firstName != null) {
+            List<StudentDto> studentsByFirstName = universityService.getStudentsByFirstName(firstName);
+            return ResponseEntity.ok().body(studentsByFirstName);
+
+        } else if (gpa != null) {
+            List<StudentDto> studentsByGPA = universityService.getStudentsByGPA(gpa);
+            return ResponseEntity.ok().body(studentsByGPA);
+
+        } else {
+            List<StudentDto> allStudents = universityService.getAllStudents();
+            return ResponseEntity.ok().body(allStudents);
         }
     }
 }

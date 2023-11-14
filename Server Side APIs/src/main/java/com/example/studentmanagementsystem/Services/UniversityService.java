@@ -5,6 +5,7 @@ import com.example.studentmanagementsystem.Models.University;
 import com.example.studentmanagementsystem.Utils.XMLUtils;
 import com.example.studentmanagementsystem.dtos.StudentDto;
 import jakarta.xml.bind.JAXBException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,19 +45,45 @@ public class UniversityService {
         // pass
     }
 
-    public List<Student> getAllStudents() {
-        return null;
+    public List<StudentDto> getAllStudents() {
+        List<Student> students = this.universityRepository.getStudents();
+        return mapListOfStudents(students);
     }
 
-    public Student getStudentByID(String id) {
-        return null;
+
+    public List<StudentDto> getStudentsByFirstName(String firstName) {
+        List<Student> students = this.universityRepository.getStudentsByFirstname(firstName);
+
+        return mapListOfStudents(students);
     }
 
-    public List<Student> getStudentsByFirstName(String firstName) {
-        return null;
+    public List<StudentDto> getStudentsByGPA(Float gpa) {
+        List<Student> gpaFilter = this.universityRepository.getStudentsByGpa(gpa);
+        return mapListOfStudents(gpaFilter);
     }
 
-    public List<Student> getStudentsByGPA(Float gpa) {
-        return null;
+    public List<StudentDto> getStudentsByFirstNameAndGPA(String firstName, Float gpa) {
+        List<Student> firstnameFilter = this.universityRepository.getStudentsByFirstname(firstName);
+        List<Student> gpaFilter = this.universityRepository.getStudentsByGpa(gpa);
+
+        List<Student> intersection = new ArrayList<>();
+
+        if((firstnameFilter.size() != 0) && (gpaFilter.size() != 0)) {
+            for(Student student : firstnameFilter){
+                if(gpaFilter.contains(student)){
+                    intersection.add(student);
+                }
+            }
+        }
+        return mapListOfStudents(intersection);
+    }
+
+    private List<StudentDto> mapListOfStudents (List<Student> students) {
+        List<StudentDto> studentsDto = new ArrayList<>();
+        for (Student student : students) {
+            StudentDto studentDto1 = studentService.convertStudentToStudentDto(student);
+            studentsDto.add(studentDto1);
+        }
+        return studentsDto;
     }
 }

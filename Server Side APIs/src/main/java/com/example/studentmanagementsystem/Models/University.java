@@ -31,5 +31,23 @@ public class University {
         }
     }
 
+    public List<Student> getStudentsByFirstname(String firstName) {
+        List<Student> students = new ArrayList<>();
+        for (Student student : studentsList) {
+            if (student.getFirstName().toLowerCase().equals(firstName.toLowerCase())) {
+                students.add(student);
+            }
+        }
+        return students;
+    }
 
+    public List<Student> getStudentsByGpa(Float gpa) {
+        List<Student> students = new ArrayList<>();
+        for (Student student : studentsList) {
+            if (student.getGPA().equals(gpa)) {
+                students.add(student);
+            }
+        }
+        return students;
+    }
 }
