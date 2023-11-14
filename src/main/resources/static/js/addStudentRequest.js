@@ -2,35 +2,39 @@
 const BASE_URL = 'http://localhost:8080';
 
 async function addStudents() {
+    try {
+        const studentsRequestData = retrieveDataFromCards();
+        const numberOfStudents = studentsRequestData.length;
 
-    const studentsRequestData = retrieveDataFromCards();
-    const numberOfStudents = studentsRequestData.length;
-
-    const requestBody = {
-        studentsList: studentsRequestData
-    }
-
-    await fetch(`${BASE_URL}/students/add/${numberOfStudents}`, {
-        method: 'POST', headers: {
-            'Content-Type': 'application/json',
-        }, body: JSON.stringify(requestBody)
-    }).then(async response => {
-        if (!response.ok) {
-            const data = await response.json().then(data => {
-                return data
-            })
-            throw new Error(`HTTP error! Status: ${data.error}`);
+        const requestBody = {
+            studentsList: studentsRequestData
         }
 
-        return {message: "The student is added successfully"}
+        const response = await fetch(`${BASE_URL}/students/add/${numberOfStudents}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        })
 
-    }).then(data => {
-        showSuccessAlert(data.message);
-    }).catch(error => {
-        console.log(error.message);
+
+        const data = await response.json().then(data => {
+            return data
+        });
+
+        if (response.ok) {
+            showSuccessAlert(data.message);
+        } else {
+            showErrorAlert(`${data.error}`);
+        }
+
+    } catch (error) {
+        console.error('Error adding students:', error.message);
         showErrorAlert(error.message);
-    });
+    }
 }
+
 
 function showSuccessAlert(message) {
     const successAlert = `<div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">

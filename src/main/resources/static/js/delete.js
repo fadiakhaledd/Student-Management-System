@@ -1,8 +1,6 @@
 "use strict";
 
 async function deleteStudent(studentID) {
-    console.log(`Deleting student with ID: ${studentID}`);
-
     try {
         const response = await fetch(`${BASE_URL}/students/${studentID}`, {
             method: "DELETE",
