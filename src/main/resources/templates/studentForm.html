@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Students</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/addStudentStyle.css">
+</head>
+
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div id="alertContainer"></div>
+
+        <div class="card p-4">
+            <h2 class="text-center mb-4">Add Students</h2>
+
+
+            <form id="addStudentForm">
+                <div id="studentsData"></div>
+            </form>
+
+            <button type="button" id="submitBtn" onclick="addStudents()" class="btn btn-primary">Submit</button>
+
+        </div>
+    </div>
+
+    <script src="../static/js/addStudentRequest.js"></script>
+    <script src="../static/js/addStudentsFormConstruct.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        let numStudents = new URLSearchParams(window.location.search).get("numStudents");
+        if (numStudents > 0) {
+            createStudentForms(numStudents);
+        }
+    </script>
+</body>
+
+</html>

@@ -40,7 +40,7 @@ public class UniversityService {
         xmlUtils.convertObjectToXML(this.universityRepository);
     }
 
-    public void deleteStudent(Long id) throws JAXBException {
+    public void deleteStudent(String id) throws JAXBException {
         this.universityRepository.removeStudent(id);
         xmlUtils.convertObjectToXML(this.universityRepository);
     }

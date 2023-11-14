@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student List</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
 
 <div class="container mt-5">
     <h2>Student Management System</h2> <br>
 
+    <!-- Search by First Name and GPA -->
     <div class="form-group">
-        <input type="text" id="searchInput" onkeyup="searchStudents()" class="form-control" placeholder="Search by firstname or gpa">
+        <div class="input-group">
+            <input type="text" id="searchFirstName" onkeyup="searchStudents()" class="form-control" placeholder="Search by first name">
+            <input type="text" id="searchGPA" onkeyup="searchStudents()" class="form-control" placeholder="Search by GPA">
+        </div>
     </div>
 
-    <button class="btn btn-primary mb-3" onclick="window.open('addStudents.html', '_blank')">Add New Student</button>
+    <button class="btn btn-primary mb-3" onclick="window.open('addStudentsNumber.html', '_blank')">Add New Student</button>
 
     <table class="table">
         <thead>
@@ -24,6 +28,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Level</th>
+                <th>GPA</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -41,7 +46,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<script src="../static/script.js"></script>
+<script src="../static/js/display.js"></script>
+<script src="../static/js/search.js"></script>
+<script src="../static/js/detailsModal.js"></script>
+<script src="../static/js/delete.js"></script>
+
+
 
 </body>
 </html>

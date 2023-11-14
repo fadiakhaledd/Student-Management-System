@@ -6,6 +6,7 @@ import com.example.studentmanagementsystem.dtos.StudentDto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,19 +30,20 @@ public class UniversityController {
             @RequestBody @NotNull AddStudentsDTO requestDto) throws JAXBException {
 
         if (numberOfStudents < 1) {
-            return ResponseEntity.badRequest().body("Number of students must be greater than 0");
+            return ResponseEntity.badRequest()
+                    .body("{\"error\": \"Number of students must be greater than 0\"}");
         }
 
         if (requestDto.studentsList.size() != numberOfStudents) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Number of students in the list does not match the specified number.");
+            return ResponseEntity.badRequest()
+                    .body("{\"error\": \"Number of students in the list does not match the specified number.\"}");
         }
         try {
             universityService.addStudents(requestDto.studentsList);
-            return ResponseEntity.ok().body("Students added successfully.");
+            return ResponseEntity.ok().body("{\"message\": \"Students added successfully.\"}");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Students could not be added. " + e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body("{\"error\": \"Students could not be added. " + e.getMessage() + "\"}");
         }
     }
 
@@ -69,12 +71,13 @@ public class UniversityController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> DeleteStudent(@PathVariable Long id) throws JAXBException {
+    public ResponseEntity<Object> DeleteStudent(@PathVariable String id) throws JAXBException {
         try {
             universityService.deleteStudent(id);
-            return ResponseEntity.ok().body("Student deleted successfully.");
+            return ResponseEntity.ok().body("{\"message\": \"Student deleted successfully.\"}");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Student could not be deleted. " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\": \"Student could not be deleted. " + e.getMessage() + "\"}");
         }
     }
 }

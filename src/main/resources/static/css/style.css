@@ -103,3 +103,10 @@ th {
     width: 80%;
 }
 
+.input-group {
+    display: flex;
+}
+
+.input-group input {
+    margin-right: 10px;
+}

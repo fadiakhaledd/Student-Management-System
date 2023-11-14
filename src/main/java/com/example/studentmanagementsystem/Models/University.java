@@ -25,7 +25,7 @@ public class University {
 
     private void validateStudent(Student student) throws ValidationException {
 
-        Long studentId = student.getID();
+        String studentId = student.getID();
         boolean existingId = studentsList.stream().anyMatch(s -> s.getID().equals(studentId));
         if (existingId) {
             throw new ValidationException("Student with ID: " + student.getID() + " already exists");
@@ -52,7 +52,7 @@ public class University {
         return students;
     }
 
-    public void removeStudent(Long id) {
+    public void removeStudent(String id) {
         boolean removed = studentsList.removeIf(student -> student.getID().equals(id));
         if (!removed) {
             throw new RuntimeException("Student with ID: " + id + " does not exist");
