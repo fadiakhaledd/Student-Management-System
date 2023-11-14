@@ -4,33 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
 
-<h2>Student List</h2>
+<div class="container mt-5">
+    <h2>Student Management System</h2> <br>
 
-<input type="text" id="searchInput" onkeyup="searchStudents()" placeholder="Search by firstname or gpa">
+    <div class="form-group">
+        <input type="text" id="searchInput" onkeyup="searchStudents()" class="form-control" placeholder="Search by firstname or gpa">
+    </div>
 
-<button class="addStudentButton" onclick="location.href='addStudents.html'">Add New Student</button>
+    <button class="btn btn-primary mb-3" onclick="window.open('addStudents.html', '_blank')">Add New Student</button>
 
-<table id="studentTable">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="studentTableBody"></tbody>
-</table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="studentTableBody"></tbody>
+    </table>
 
-<div id="studentDetailsModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeStudentDetailsModal()">&times;</span>
-        <div id="studentDetails"></div>
+    <div id="studentDetailsModal" class="modal">
+        <div class="modal-content">
+            <div id="studentDetails"></div>
+        </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script src="../static/script.js"></script>
 

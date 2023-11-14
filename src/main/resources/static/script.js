@@ -1,9 +1,16 @@
 const students = [
-    { ID: 1, FirstName: 'John', LastName: 'Doe', Gender: 'Male', GPA: 3.5, Level: 3, Address: '123 Main Street' },
-    { ID: 2, FirstName: 'Jane', LastName: 'Doe', Gender: 'Female', GPA: 4.0, Level: 4, Address: '456 Oak Avenue' },
-    { ID: 3, FirstName: 'Jane', LastName: 'Doe', Gender: 'Female', GPA: 4.0, Level: 4, Address: '456 Oak Avenue' },
-    { ID: 4, FirstName: 'Jane', LastName: 'Doe', Gender: 'Female', GPA: 4.0, Level: 4, Address: '456 Oak Avenue' },
+    { ID: 20200371, FirstName: 'Fadia', LastName: 'Abdelhady Ghareeb', Gender: 'Female', GPA: 3.5, Level: 3, Address: '123 Main Street' },
+    { ID: 20200145, FirstName: 'Habiba', LastName: 'Mohamed Mohamed Menshawy', Gender: 'Female', GPA: 4.0, Level: 4, Address: '456 Oak Avenue' },
+    { ID: 20200147, FirstName: 'Habiba', LastName: 'Yasser Sayed', Gender: 'Female', GPA: 4.0, Level: 4, Address: '456 Oak Avenue' },
+
 ];
+
+const StudentLevel = {
+    1: 'First',
+    2: 'Second',
+    3: 'Third',
+    4: 'Fourth'
+};
 
 
 // Function to display students in the table
@@ -17,6 +24,7 @@ function displayStudents() {
 
         row.innerHTML = `<td>${student.ID}</td>
                          <td>${fullName}</td>
+                         <td>${StudentLevel[student.Level]}</td>
                          <td>
                             <button class="deleteButton" onclick="deleteStudent(${student.ID})">Delete</button>
                             <button class="viewButton" onclick="openStudentDetailsModal(${student.ID})">View</button>
