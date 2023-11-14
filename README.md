@@ -41,7 +41,4 @@ A basic student management system with features for adding, deleting, and search
    ```
    or 
     ```bash
-   java -jar target/student-management-system.jar
-
-5. Open the web browser and navigate to http://localhost:8080.
-   
+   java -jar target/student-management-system.jar   
