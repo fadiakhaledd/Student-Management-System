@@ -34,16 +34,16 @@ function createStudentForms(numStudents) {
                     <div class="card-body">
                         <div class="form-group">
                             <label for="studentID${i}">Student ID <span class="text-danger">*</span>:</label>
-                            <input type="text" id="studentID${i}" name="studentID${i}" class="form-control" required>
+                            <input type="text" id="studentID${i}" name="studentID${i}" class="form-control" placeholder="Enter student ID" required>
                         </div>
                         <div class="form-group">
                             <label for="firstName${i}">First Name <span class="text-danger">*</span>:</label>
-                            <input type="text" id="firstName${i}" name="firstName${i}" class="form-control" required>
+                            <input type="text" id="firstName${i}" name="firstName${i}" class="form-control" placeholder="Enter first name (characters a-z)" required>
                         </div>
 
                         <div class="form-group">
                             <label for="lastName${i}">Last Name <span class="text-danger">*</span>:</label>
-                            <input type="text" id="lastName${i}" name="lastName${i}" class="form-control" required>
+                            <input type="text" id="lastName${i}" name="lastName${i}" class="form-control" placeholder="Enter last name (characters a-z)" required>
                         </div>
 
                         <div class="form-group">
@@ -55,8 +55,8 @@ function createStudentForms(numStudents) {
                         </div>
 
                         <div class="form-group">
-                            <label for="gpa${i}">GPA <span class="text-danger">*</span>:</label>
-                            <input type="number" id="gpa${i}" name="gpa${i}" step="0.1" class="form-control" required>
+                            <label for="gpa${i}">GPA (0 to 4):<span class="text-danger">*</span>:</label>
+                            <input type="number" id="gpa${i}" name="gpa${i}" step="0.1" class="form-control" placeholder="Enter GPA (0 to 4)" step="0.01" min="0" max="4" required>
                         </div>
 
                         <div class="form-group">

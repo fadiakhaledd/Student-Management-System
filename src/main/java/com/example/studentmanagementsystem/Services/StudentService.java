@@ -11,33 +11,34 @@ public class StudentService {
     Student convertStudentDtoToStudent(StudentDto studentDto) {
 
         Student student = new Student();
-        student.setID(studentDto.ID);
-        student.setFirstName(studentDto.FirstName);
-        student.setLastName(studentDto.LastName);
-        if (studentDto.Gender == Gender.FEMALE) {
+        student.setID(studentDto.getID());
+        student.setFirstName(studentDto.getFirstName());
+        student.setLastName(studentDto.getLastName());
+        if (studentDto.getGender() == Gender.FEMALE) {
             student.setGender("Female");
         } else {
             student.setGender("Male");
         }
-        student.setGPA(studentDto.GPA);
-        student.setLevel(studentDto.Level);
-        student.setAddress(studentDto.Address);
+        student.setGPA(studentDto.getGPA());
+        student.setLevel(studentDto.getLevel());
+        student.setAddress(studentDto.getAddress());
         return student;
     }
 
     StudentDto convertStudentToStudentDto(Student student) {
         StudentDto studentDto = new StudentDto();
-        studentDto.ID = student.getID();
-        studentDto.FirstName = student.getFirstName();
-        studentDto.LastName = student.getLastName();
+        studentDto.setID(student.getID());
+        studentDto.setFirstName(student.getFirstName());
+        studentDto.setLastName(student.getLastName());
+        studentDto.setLevel(student.getLevel());
+        studentDto.setGPA(student.getGPA());
+        student.setAddress(studentDto.getAddress());
         if (student.getGender().equals("Female")) {
-            studentDto.Gender = Gender.FEMALE;
+            studentDto.setGender(Gender.FEMALE);
         } else {
-            studentDto.Gender = Gender.MALE;
+            studentDto.setGender(Gender.MALE);
         }
-        studentDto.Level = student.getLevel();
-        studentDto.GPA = student.getGPA();
-        studentDto.Address = student.getAddress();
+
         return studentDto;
     }
 }

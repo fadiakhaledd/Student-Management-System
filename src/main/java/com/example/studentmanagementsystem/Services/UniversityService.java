@@ -2,6 +2,7 @@ package com.example.studentmanagementsystem.Services;
 
 import com.example.studentmanagementsystem.Models.Student;
 import com.example.studentmanagementsystem.Models.University;
+import com.example.studentmanagementsystem.Utils.ValidationUtils;
 import com.example.studentmanagementsystem.Utils.XMLUtils;
 import com.example.studentmanagementsystem.dtos.StudentDto;
 import jakarta.xml.bind.JAXBException;
@@ -15,6 +16,7 @@ public class UniversityService {
     private final University universityRepository;
     private final StudentService studentService;
     private final XMLUtils xmlUtils = new XMLUtils();
+    private final ValidationUtils validationUtils = new ValidationUtils();
 
     public UniversityService(StudentService studentService) throws JAXBException {
         this.studentService = studentService;
@@ -31,17 +33,16 @@ public class UniversityService {
     }
 
     public void addStudents(List<StudentDto> studentsDto) throws JAXBException {
+
+        validationUtils.validateStudentsInput(studentsDto);
+
         ArrayList<Student> newStudents = new ArrayList<>();
         for (StudentDto studentDto : studentsDto) {
             Student newStudent = studentService.convertStudentDtoToStudent(studentDto);
             newStudents.add(newStudent);
         }
-        this.universityRepository.addStudents(newStudents);
-        xmlUtils.convertObjectToXML(this.universityRepository);
-    }
 
-    public void deleteStudent(String id) throws JAXBException {
-        this.universityRepository.removeStudent(id);
+        this.universityRepository.addStudents(newStudents);
         xmlUtils.convertObjectToXML(this.universityRepository);
     }
 
@@ -85,5 +86,15 @@ public class UniversityService {
             studentsDto.add(studentDto1);
         }
         return studentsDto;
+    }
+
+    public void deleteStudent(String id) throws JAXBException {
+        this.universityRepository.removeStudent(id);
+        xmlUtils.convertObjectToXML(this.universityRepository);
+    }
+
+    public void updateStudent(String id) throws JAXBException {
+        universityRepository.updateStudent(id);
+        xmlUtils.convertObjectToXML(this.universityRepository);
     }
 }

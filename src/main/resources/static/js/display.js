@@ -17,7 +17,6 @@ async function initializeStudentsList() {
 
     document.getElementById('searchFirstName').addEventListener('keyup', searchStudents);
     document.getElementById('searchGPA').addEventListener('keyup', searchStudents);
-
 }
 
 async function fetchStudentsData() {
@@ -54,4 +53,4 @@ async function displayStudents(students) {
 }
 
 
-initializeStudentsList()
+initializeStudentsList().then(() => console.log("Students list initialized"));

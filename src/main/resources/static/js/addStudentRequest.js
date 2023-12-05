@@ -4,6 +4,13 @@ const BASE_URL = 'http://localhost:8080';
 async function addStudents() {
     try {
         const studentsRequestData = retrieveDataFromCards();
+
+        console.log({ studentsRequestData });
+        if (studentsRequestData.length === 0) {
+            console.log('here')
+            return; // Exit the function if there are validation errors
+        }
+
         const numberOfStudents = studentsRequestData.length;
 
         const requestBody = {
@@ -36,44 +43,9 @@ async function addStudents() {
 }
 
 
-function showSuccessAlert(message) {
-    const successAlert = `<div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>${message}</strong> </div>`;
-
-    displayAlert(successAlert);
-
-    setTimeout(() => {
-        removeAlert('successAlert');
-    }, 5000);
-}
-
-function showErrorAlert(message) {
-    const errorAlert = `<div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert"><strong>${message}</strong></div>`
-
-    displayAlert(errorAlert);
-
-    setTimeout(() => {
-        removeAlert('errorAlert');
-    }, 5000);
-}
-
-function removeAlert(alertId) {
-    const alertElement = document.getElementById(alertId);
-    if (alertElement) {
-        alertElement.remove();
-    }
-}
-
-function displayAlert(alertHtml) {
-    const alertContainer = document.getElementById('alertContainer');
-    if (alertContainer) {
-        alertContainer.innerHTML = alertHtml;
-    }
-}
 
 function retrieveDataFromCards() {
     const studentsDataContainer = document.getElementById("studentsData");
-
     let studentsList = [];
 
     // Loop through each card
@@ -114,17 +86,86 @@ function retrieveDataFromCards() {
                     break;
             }
 
-            let fieldValue = element.value;
+            let fieldValue = element.value.trim(); // Trim to handle spaces
 
-            if (fieldName === 'Gender') {
+            if (fieldName === 'Gender' && fieldValue !== "") {
                 fieldValue = fieldValue.toUpperCase();
             }
 
             studentData[fieldName] = fieldValue;
         });
 
-        studentsList.push(studentData);
+        // Validate student data
+        if (!validateStudentData(studentData, index)) {
+            return;
+        }
 
+        studentsList.push(studentData);
     });
+
     return studentsList;
+}
+
+function validateStudentData(studentData, index) {
+
+    for (const fieldName in studentData) {
+        const fieldValue = studentData[fieldName].trim();
+
+        if (fieldValue === "") {
+            alert(`Error: Student ${index + 1} - ${fieldName} cannot be empty.`);
+            return false;
+        }
+
+        if ((fieldName === 'FirstName' || fieldName === 'LastName') && fieldValue !== "") {
+            if (!/^[a-zA-Z]+$/.test(fieldValue)) {
+                alert(`Invalid ${fieldName} for student ${index + 1}. Please use only characters (a-z).`);
+                return false;
+            }
+        }
+
+        if (fieldName === 'GPA' && fieldValue !== "") {
+            const gpaValue = parseFloat(fieldValue);
+            if (isNaN(gpaValue) || gpaValue < 0 || gpaValue > 4) {
+                alert(`Invalid GPA for student ${index + 1}. Please enter a value between 0 and 4.`);
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+function showSuccessAlert(message) {
+    const successAlert = `<div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>${message}</strong> </div>`;
+
+    displayAlert(successAlert);
+
+    setTimeout(() => {
+        removeAlert('successAlert');
+    }, 5000);
+}
+
+function showErrorAlert(message) {
+    const errorAlert = `<div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert"><strong>${message}</strong></div>`
+
+    displayAlert(errorAlert);
+
+    setTimeout(() => {
+        removeAlert('errorAlert');
+    }, 5000);
+}
+
+function removeAlert(alertId) {
+    const alertElement = document.getElementById(alertId);
+    if (alertElement) {
+        alertElement.remove();
+    }
+}
+
+function displayAlert(alertHtml) {
+    const alertContainer = document.getElementById('alertContainer');
+    if (alertContainer) {
+        alertContainer.innerHTML = alertHtml;
+    }
 }
