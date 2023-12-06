@@ -4,8 +4,10 @@ A basic student management system with features for adding, deleting, and search
 
 ## Features
 
-- Add, delete, and search student information.
-- Web-based user interface.
+- Create, view, update, and delete students.
+- Sort the data based on user input.
+- Apply filters for searching by any attribute.
+- Web-based user interface
 - XML-based data storage.
 
 ## Getting Started
