@@ -1,14 +1,16 @@
-package com.example.studentmanagementsystem.Models;
+package com.example.studentmanagementsystem.Repositories;
 
+import com.example.studentmanagementsystem.Models.Student;
 import jakarta.xml.bind.ValidationException;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @XmlRootElement(name = "University")
-public class University {
+public class UniversityRepository {
     List<Student> studentsList = new ArrayList<>();
 
     @XmlElement(name = "Student")
@@ -32,24 +34,13 @@ public class University {
         }
     }
 
-    public List<Student> getStudentsByFirstname(String firstName) {
-        List<Student> students = new ArrayList<>();
+    public Student getStudentById(String id) {
         for (Student student : studentsList) {
-            if (student.getFirstName().toLowerCase().equals(firstName.toLowerCase())) {
-                students.add(student);
+            if (Objects.equals(student.getID(), id)) {
+                return student;
             }
         }
-        return students;
-    }
-
-    public List<Student> getStudentsByGpa(Float gpa) {
-        List<Student> students = new ArrayList<>();
-        for (Student student : studentsList) {
-            if (student.getGPA().equals(gpa)) {
-                students.add(student);
-            }
-        }
-        return students;
+        return null;
     }
 
     public void removeStudent(String id) {
@@ -57,5 +48,18 @@ public class University {
         if (!removed) {
             throw new RuntimeException("Student with ID: " + id + " does not exist");
         }
+    }
+
+    public void updateStudent(String id, Student student) {
+        for (int i = 0; i < studentsList.size(); i++) {
+            if (studentsList.get(i).getID().equals(id)) {
+                studentsList.set(i, student);
+                return;
+            }
+        }
+    }
+
+    public void setStudentsList(List<Student> students) {
+        this.studentsList = students;
     }
 }

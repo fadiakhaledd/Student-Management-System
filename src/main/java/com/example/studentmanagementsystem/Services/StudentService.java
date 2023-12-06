@@ -11,32 +11,35 @@ public class StudentService {
     Student convertStudentDtoToStudent(StudentDto studentDto) {
 
         Student student = new Student();
-        student.setID(studentDto.getID());
-        student.setFirstName(studentDto.getFirstName());
-        student.setLastName(studentDto.getLastName());
-        if (studentDto.getGender() == Gender.FEMALE) {
-            student.setGender("Female");
+        student.setID(studentDto.ID);
+        student.setFirstName(studentDto.FirstName);
+        student.setLastName(studentDto.LastName);
+        student.setGPA(studentDto.GPA);
+        student.setLevel(studentDto.Level);
+        student.setAddress(studentDto.Address);
+
+        if (studentDto.Gender == Gender.FEMALE) {
+            student.setGender(Gender.FEMALE.toString());
         } else {
-            student.setGender("Male");
+            student.setGender(Gender.MALE.toString());
         }
-        student.setGPA(studentDto.getGPA());
-        student.setLevel(studentDto.getLevel());
-        student.setAddress(studentDto.getAddress());
         return student;
     }
 
     StudentDto convertStudentToStudentDto(Student student) {
         StudentDto studentDto = new StudentDto();
-        studentDto.setID(student.getID());
-        studentDto.setFirstName(student.getFirstName());
-        studentDto.setLastName(student.getLastName());
-        studentDto.setLevel(student.getLevel());
-        studentDto.setGPA(student.getGPA());
-        student.setAddress(studentDto.getAddress());
-        if (student.getGender().equals("Female")) {
-            studentDto.setGender(Gender.FEMALE);
+        studentDto.ID = student.getID();
+        studentDto.FirstName = student.getFirstName();
+        studentDto.LastName = student.getLastName();
+        studentDto.Level = student.getLevel();
+        studentDto.GPA = student.getGPA();
+        studentDto.Address = student.getAddress();
+
+        student.setAddress(studentDto.Address);
+        if (student.getGender().equals(Gender.FEMALE.toString())) {
+            studentDto.Gender = Gender.FEMALE;
         } else {
-            studentDto.setGender(Gender.MALE);
+            studentDto.Gender = Gender.MALE;
         }
 
         return studentDto;

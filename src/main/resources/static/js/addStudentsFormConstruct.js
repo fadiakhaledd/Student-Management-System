@@ -53,16 +53,17 @@ function createStudentForms(numStudents) {
                                 <option value="Female">Female</option>
                             </select>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="level${i}">Level <span class="text-danger">*</span>:</label>
+                            <input type="number" id="level${i}" name="level${i}" class="form-control" required>
+                        </div>
 
                         <div class="form-group">
                             <label for="gpa${i}">GPA (0 to 4):<span class="text-danger">*</span>:</label>
                             <input type="number" id="gpa${i}" name="gpa${i}" step="0.1" class="form-control" placeholder="Enter GPA (0 to 4)" step="0.01" min="0" max="4" required>
                         </div>
 
-                        <div class="form-group">
-                            <label for="level${i}">Level <span class="text-danger">*</span>:</label>
-                            <input type="number" id="level${i}" name="level${i}" class="form-control" required>
-                        </div>
 
                         <div class="form-group">
                             <label for="address${i}">Address <span class="text-danger">*</span>:</label>

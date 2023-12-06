@@ -9,14 +9,12 @@ const StudentLevel = {
     2: "Second",
     3: "Third",
     4: "Fourth",
+    5: "Fifth"
 };
 
 async function initializeStudentsList() {
     studentsList = await fetchStudentsData();
     await displayStudents(studentsList);
-
-    document.getElementById('searchFirstName').addEventListener('keyup', searchStudents);
-    document.getElementById('searchGPA').addEventListener('keyup', searchStudents);
 }
 
 async function fetchStudentsData() {
@@ -44,13 +42,13 @@ async function displayStudents(students) {
                          <td>${StudentLevel[student.Level]}</td>
                          <td>${student.GPA}</td>
                          <td>
-                            <button class="deleteButton" onclick="deleteStudent(${student.ID
-            })">Delete</button>
-                            <button class="viewButton" onclick="openStudentDetailsModal(${student.ID
-            })">View</button>
+                            <button  class="btn btn-info" onclick="openStudentDetailsModal(${student.ID})">View</button>
+                            <button class="btn btn-primary" onclick="openStudentEditDetailsModal(${student.ID})">Edit</button>
+                            <button  class="btn btn-danger" onclick="deleteStudent(${student.ID})">Delete</button>
+
                          </td>`;
     });
 }
 
 
-initializeStudentsList().then(() => console.log("Students list initialized"));
+initializeStudentsList()

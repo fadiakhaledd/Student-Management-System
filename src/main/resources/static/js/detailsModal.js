@@ -9,14 +9,15 @@ function openStudentDetailsModal(studentID) {
     const studentDetailsContainer = document.getElementById("studentDetails");
 
     if (student) {
+        const capitalizedGender = capitalizeFirstLetter(student.Gender.toLowerCase());
         studentDetailsContainer.innerHTML = `
             <h3> Student's Info </h3>
             <p> <strong>Student's ID:</strong> ${student.ID}</p>
             <p><strong>Firstname:</strong> ${student.FirstName}</p>
             <p><strong>Lastname:</strong> ${student.LastName}</p>
+            <p><strong>Gender: </strong>${capitalizedGender}</p>
             <p><strong>Level: </strong>${student.Level}</p>
             <p><strong>GPA: </strong>${student.GPA}</p>
-            <p><strong>Gender: </strong>${student.Gender}</p>
             <p><strong>Address: </strong>${student.Address}</p>
         `;
         modal.style.display = "block";
@@ -30,3 +31,7 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 };
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}

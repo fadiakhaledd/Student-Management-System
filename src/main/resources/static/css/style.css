@@ -14,6 +14,7 @@ h2 {
     max-width: 900px;
     margin: auto;
 }
+
 input[type="text"] {
     width: 100%;
     padding: 10px;
@@ -23,64 +24,20 @@ input[type="text"] {
     border-radius: 4px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+#sidebar {
+    padding-top: 20px; /* Adjust the top padding as needed */
 }
 
-th, td {
-    border: 2px solid #ddd;
-    padding: 10px;
-    text-align: center;
+.sidebar-heading {
+    font-size: 1.2rem;
 }
 
-th {
-    background-color: #4CAF50;
-    color: white;
+#searchForm {
+    margin-top: 20px; /* Adjust the top margin as needed */
 }
 
-.deleteButton {
-    background-color: #e74c3c; /* Red color for delete button */
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: white;
-}
-
-
-
-.viewButton {
-    background-color: #3498db; /* Blue color for view button */
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: white;
-}
-
-.addStudentButton {
-    background-color: #2ecc71; /* Green color for the button */
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-bottom: 16px;
-}
-
-
-.deleteButton:hover {
-    background-color: #b72929;
-}
-
-.viewButton:hover {
-    background-color: #2c7cb1;
-}
-
-.addStudentButton:hover {
-    background-color: #27ae60; /* Darker green color on hover */
+.sidebar-sticky {
+    padding: 20px; /* Add padding to the sidebar content */
 }
 
 .modal {
@@ -109,4 +66,15 @@ th {
 
 .input-group input {
     margin-right: 10px;
+}
+
+.bold-label {
+    font-weight: bold;
+}
+
+
+#resultCount {
+    margin-top: 10px; /* Add top margin as needed */
+    font-size: 1.1rem; /* Adjust the font size */
+    color: #007bff; /* Change the color to a suitable one */
 }

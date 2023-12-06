@@ -1,8 +1,12 @@
 package com.example.studentmanagementsystem.Controllers;
 
+import com.example.studentmanagementsystem.Models.Gender;
+import com.example.studentmanagementsystem.Models.Student;
 import com.example.studentmanagementsystem.Services.UniversityService;
-import com.example.studentmanagementsystem.dtos.AddStudentsDTO;
+import com.example.studentmanagementsystem.dtos.SearchStudentDTO;
 import com.example.studentmanagementsystem.dtos.StudentDto;
+import com.example.studentmanagementsystem.dtos.StudentsListDto;
+import com.example.studentmanagementsystem.dtos.UpdateStudentDto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,6 @@ import java.util.List;
 public class UniversityController {
     private final UniversityService universityService;
 
-    // @Autowired is used to inject the bean dependencies automatically.
     @Autowired
     public UniversityController(UniversityService universityService) {
         this.universityService = universityService;
@@ -27,46 +30,34 @@ public class UniversityController {
     @PostMapping(value = "/add/{numberOfStudents}")
     public ResponseEntity<Object> AddStudents(
             @PathVariable int numberOfStudents,
-            @RequestBody @NotNull AddStudentsDTO requestDto) throws JAXBException {
+            @RequestBody @NotNull StudentsListDto studentsListDto) throws JAXBException {
+
 
         if (numberOfStudents < 1) {
-            return ResponseEntity.badRequest()
-                    .body("{\"error\": \"Number of students must be greater than 0\"}");
+            return new ResponseEntity<>("Number of students must be greater than 0", HttpStatus.BAD_REQUEST);
         }
 
-        if (requestDto.studentsList.size() != numberOfStudents) {
-            return ResponseEntity.badRequest()
-                    .body("{\"error\": \"Number of students in the list does not match the specified number.\"}");
+        if (studentsListDto.studentsList.size() != numberOfStudents) {
+            return new ResponseEntity<>("Number of students in the list does not match the specified number.",
+                    HttpStatus.BAD_REQUEST);
         }
+
         try {
-            universityService.addStudents(requestDto.studentsList);
-            return ResponseEntity.ok().body("{\"message\": \"Students added successfully.\"}");
+            universityService.addStudents(studentsListDto.studentsList);
+            return new ResponseEntity<>("Students added successfully", HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.badRequest()
-                    .body("{\"error\": \"Students could not be added. " + e.getMessage() + "\"}");
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping(value = "/")
-    public ResponseEntity<Object> getAllStudents(
-            @RequestParam(value = "firstname", required = false) String firstName,
-            @RequestParam(value = "gpa", required = false) Float gpa) throws JAXBException {
-        if (firstName != null && gpa != null) {
-
-            List<StudentDto> studentsByFirstNameAndGPA = universityService.getStudentsByFirstNameAndGPA(firstName, gpa);
-            return ResponseEntity.ok().body(studentsByFirstNameAndGPA);
-
-        } else if (firstName != null) {
-            List<StudentDto> studentsByFirstName = universityService.getStudentsByFirstName(firstName);
-            return ResponseEntity.ok().body(studentsByFirstName);
-
-        } else if (gpa != null) {
-            List<StudentDto> studentsByGPA = universityService.getStudentsByGPA(gpa);
-            return ResponseEntity.ok().body(studentsByGPA);
-
-        } else {
-            List<StudentDto> allStudents = universityService.getAllStudents();
-            return ResponseEntity.ok().body(allStudents);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Object> UpdateStudent(@PathVariable String id,
+                                                @RequestBody UpdateStudentDto updateStudentDto) {
+        try {
+            Student newStudent = universityService.updateStudent(id, updateStudentDto);
+            return new ResponseEntity<>(newStudent, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -74,10 +65,47 @@ public class UniversityController {
     public ResponseEntity<Object> DeleteStudent(@PathVariable String id) throws JAXBException {
         try {
             universityService.deleteStudent(id);
-            return ResponseEntity.ok().body("{\"message\": \"Student deleted successfully.\"}");
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\": \"Student could not be deleted. " + e.getMessage() + "\"}");
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/sort/{attribute}/{order}")
+    public ResponseEntity<Object> SortStudents(@PathVariable String attribute, @PathVariable String order) throws JAXBException {
+        try {
+            this.universityService.sortStudents(attribute, order);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Object> getStudents(@RequestParam(required = false) String id,
+                                              @RequestParam(required = false) String firstname,
+                                              @RequestParam(required = false) String lastname,
+                                              @RequestParam(required = false) String gender,
+                                              @RequestParam(required = false) Float gpa,
+                                              @RequestParam(required = false) Integer level,
+                                              @RequestParam(required = false) String address) throws JAXBException {
+        try {
+
+            SearchStudentDTO studentSearchDTO = new SearchStudentDTO();
+            studentSearchDTO.id = id;
+            studentSearchDTO.firstname = firstname;
+            studentSearchDTO.lastname = lastname;
+            studentSearchDTO.gender = gender;
+            studentSearchDTO.gpa = gpa;
+            studentSearchDTO.level = level;
+            studentSearchDTO.address = address;
+
+            List<StudentDto> students;
+            students = this.universityService.applySearchFilters(studentSearchDTO);
+
+            return new ResponseEntity<>(students, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 }

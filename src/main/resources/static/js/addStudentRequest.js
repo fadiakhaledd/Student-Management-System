@@ -5,10 +5,8 @@ async function addStudents() {
     try {
         const studentsRequestData = retrieveDataFromCards();
 
-        console.log({ studentsRequestData });
         if (studentsRequestData.length === 0) {
-            console.log('here')
-            return; // Exit the function if there are validation errors
+            return;
         }
 
         const numberOfStudents = studentsRequestData.length;
@@ -25,19 +23,17 @@ async function addStudents() {
             body: JSON.stringify(requestBody)
         })
 
-
-        const data = await response.json().then(data => {
-            return data
-        });
+        const data = await response.text();
 
         if (response.ok) {
-            showSuccessAlert(data.message);
+            showSuccessAlert(data);
         } else {
-            showErrorAlert(`${data.error}`);
+            console.error('Error adding students:', response.status, data);
+            showErrorAlert(`Error! ${data}`);
         }
 
     } catch (error) {
-        console.error('Error adding students:', error.message);
+        console.log('Error adding students:', error.message);
         showErrorAlert(error.message);
     }
 }
@@ -116,7 +112,7 @@ function validateStudentData(studentData, index) {
             return false;
         }
 
-        if ((fieldName === 'FirstName' || fieldName === 'LastName') && fieldValue !== "") {
+        if ((fieldName === 'FirstName' || fieldName === 'LastName' || fieldName === 'Address') && fieldValue !== "") {
             if (!/^[a-zA-Z]+$/.test(fieldValue)) {
                 alert(`Invalid ${fieldName} for student ${index + 1}. Please use only characters (a-z).`);
                 return false;
@@ -130,6 +126,16 @@ function validateStudentData(studentData, index) {
                 return false;
             }
         }
+
+        if (fieldName === 'Level' && fieldValue !== "") {
+            const Level = parseInt(fieldValue);
+            if (isNaN(Level) || Level < 1 || Level > 5) {
+                alert(`Invalid Level for student ${index + 1}. Please enter a value between 1 and 5.`);
+                return false;
+            }
+        }
+
+
     }
 
     return true;

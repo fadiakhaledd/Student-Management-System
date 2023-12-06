@@ -1,18 +1,32 @@
 "use strict";
 
-function searchStudents() {
-    const firstNameInput = document.getElementById('searchFirstName').value.toLowerCase();
-    const gpaInput = document.getElementById('searchGPA').value;
+function applySearchFilter() {
+    const id = document.getElementById('searchID').value;
+    const firstname = document.getElementById('searchFirstName').value;
+    const lastname = document.getElementById('searchLastName').value;
+    const gender = document.getElementById('searchGender').value;
+    const gpa = document.getElementById('searchGPA').value;
+    const level = document.getElementById('searchLevel').value;
+    const address = document.getElementById('searchAddress').value;
 
     const queryParams = {
-        ...(firstNameInput && { firstname: firstNameInput }),
-        ...(gpaInput && { gpa: gpaInput })
+        ...(id && { id }),
+        ...(firstname && { firstname }),
+        ...(lastname && { lastname }),
+        ...(gender && { gender }),
+        ...(level && { level }),
+        ...(gpa && { gpa }),
+        ...(address && { address }),
     };
 
-    filterStudents(queryParams);
+    if (!validateInputData(queryParams)) {
+        return;
+    }
+
+    searchStudentsRequest(queryParams);
 }
 
-async function filterStudents(queryParams) {
+async function searchStudentsRequest(queryParams) {
     const url = new URL(`${BASE_URL}/students/`);
 
     Object.keys(queryParams).forEach(key => {
@@ -26,6 +40,8 @@ async function filterStudents(queryParams) {
             alert(`HTTP error! Status: ${response.status}`);
         }
         const filteredStudents = await response.json();
+
+        document.getElementById("resultCount").innerText = `Found ${filteredStudents.length} students.`;
 
         await displayStudents(filteredStudents);
     } catch (error) {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,38 +8,123 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
+
 <body>
 
-<div class="container mt-5">
-    <h2>Student Management System</h2> <br>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    Filters
+                </h5>
+                <form id="searchForm" class="mb-4">
+                    <div class="form-group">
+                        <label for="id">ID:</label>
+                        <input type="text" id="searchID" name="id" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="searchFirstName" name="firstName" class="form-control">
+                    </div>
 
-    <!-- Search by First Name and GPA -->
-    <div class="form-group">
-        <div class="input-group">
-            <input type="text" id="searchFirstName" onkeyup="searchStudents()" class="form-control" placeholder="Search by first name">
-            <input type="text" id="searchGPA" onkeyup="searchStudents()" class="form-control" placeholder="Search by GPA">
-        </div>
-    </div>
+                    <div class="mb-3">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" id="searchLastName" name="lastName" class="form-control">
+                    </div>
 
-    <button class="btn btn-primary mb-3" onclick="window.open('addStudentsNumber.html', '_blank')">Add New Student</button>
+                    <div class="mb-3">
+                        <label for="gender">Gender:</label>
+                        <select id="searchGender" name="gender" class="form-control">
+                            <option value="">---</option>
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                        </select>
+                    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Level</th>
-                <th>GPA</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="studentTableBody"></tbody>
-    </table>
+                    <div class="mb-3">
+                        <label for="gpa">GPA:</label>
+                        <input type="number" id="searchGPA" name="gpa" class="form-control" step="0.01" max="4" min="0">
+                    </div>
 
-    <div id="studentDetailsModal" class="modal">
-        <div class="modal-content">
-            <div id="studentDetails"></div>
-        </div>
+                    <div class="mb-3">
+                        <label for="level">Level:</label>
+                        <input type="number" id="searchLevel" name="level" class="form-control" step="1" max="5" min="1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">Address:</label>
+                        <input type="text" id="searchAddress" name="address" class="form-control">
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="applySearchFilter()">Search</button>
+                    <p id="resultCount"></p>
+                </form>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div class="container mt-5">
+                <h2>Student Management System</h2> <br>
+
+                <div class="sorting row align-items-center">
+                    <div class="col-md-4">
+                        <label for="sortBy">Sort By: </label>
+                        <select id="sortBy" name="sortBy" class="form-control">
+                            <option value="" selected>---</option>
+                            <option value="id"> ID</option>
+                            <option value="firstname"> First Name</option>
+                            <option value="lastname"> Last Name</option>
+                            <option value="level"> Level</option>
+                            <option value="gpa"> GPA</option>
+                            <option value="gender"> Gender</option>
+                            <option value="address"> Address</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="sortOrder">Sort Order: </label>
+                        <select id="sortOrder" name="sortOrder" class="form-control">
+                            <option value="asc" selected>Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button class="btn btn-primary" onclick="sortStudents()">Sort</button>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="text-right mb-3"> <!-- Align the button to the right -->
+                    <button class="btn btn-primary" onclick="window.open('addStudentsNumber.html', '_blank')">Add New
+                        Student
+                    </button>
+                </div>
+
+                <table class="table table-hover table-lg">
+                    <thead class="bg-white text-dark">
+                    <tr>
+                        <th data-sort="id">ID</th>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>GPA</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="studentTableBody"></tbody>
+                </table>
+
+                <div id="studentDetailsModal" class="modal">
+                    <div class="modal-content">
+                        <div id="studentDetails"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 </div>
 
@@ -49,9 +135,10 @@
 <script src="../static/js/display.js"></script>
 <script src="../static/js/search.js"></script>
 <script src="../static/js/detailsModal.js"></script>
+<script src="../static/js/editDetailsModal.js"></script>
 <script src="../static/js/delete.js"></script>
-
-
+<script src="../static/js/sort.js"></script>
 
 </body>
+
 </html>
