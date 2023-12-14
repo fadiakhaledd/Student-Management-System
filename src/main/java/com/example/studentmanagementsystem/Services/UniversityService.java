@@ -1,5 +1,6 @@
 package com.example.studentmanagementsystem.Services;
 
+import com.example.studentmanagementsystem.Models.Gender;
 import com.example.studentmanagementsystem.Models.Student;
 import com.example.studentmanagementsystem.Repositories.UniversityRepository;
 import com.example.studentmanagementsystem.Utils.ComparatorUtils;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UniversityService {
@@ -65,48 +67,40 @@ public class UniversityService {
         xmlUtils.convertObjectToXML(this.universityRepository);
     }
 
-    public Student updateStudent(String id, UpdateStudentDto newStudent) throws JAXBException {
-        Student student = universityRepository.getStudentById(id);
-        if (student == null) {
-            throw new RuntimeException("Student with ID: " + id + " does not exist");
+    public Student updateStudent(String id, UpdateStudentDto updateStudentDto) throws JAXBException {
+        Student oldStudent = universityRepository.getStudentById(id);
+        if (oldStudent == null) {
+            throw new NullPointerException("Student with ID: " + id + " does not exist");
         }
 
-        if (newStudent.FirstName != null) {
-            if (!validationUtils.isLettersOnly(newStudent.FirstName)) {
-                throw new IllegalArgumentException("First name must contain only letters");
-            }
-            student.setFirstName(newStudent.FirstName);
+        String firstname = Optional.ofNullable(updateStudentDto.FirstName).orElse(oldStudent.getFirstName());
+        String lastname =  Optional.ofNullable(updateStudentDto.LastName).orElse(oldStudent.getLastName());
+        Gender gender =  Optional.ofNullable(updateStudentDto.Gender).orElse(Gender.valueOf(oldStudent.getGender()));
+        float gpa =  Optional.ofNullable(updateStudentDto.GPA).orElse(oldStudent.getGPA());
+        int level =  Optional.ofNullable(updateStudentDto.Level).orElse(oldStudent.getLevel());
+        String address =  Optional.ofNullable(updateStudentDto.Address).orElse(oldStudent.getAddress());
+
+        if (!validationUtils.isLettersOnly(firstname)) {
+            throw new IllegalArgumentException("First name must contain only letters");
         }
 
-        if (newStudent.LastName != null) {
-            if (!validationUtils.isLettersOnly(newStudent.LastName)) {
-                throw new IllegalArgumentException("Last name must contain only letters");
-            }
-            student.setLastName(newStudent.LastName);
+        if (!validationUtils.isLettersOnly(lastname)) {
+            throw new IllegalArgumentException("Last name must contain only letters");
         }
 
-        if (newStudent.Gender != null) {
-            student.setGender(newStudent.Gender.toString());
+        if (!validationUtils.isLettersOnly(address)) {
+            throw new IllegalArgumentException("Address must contain only letters");
         }
 
-        if (newStudent.GPA != null) {
-            if (!validationUtils.isGpaValid(newStudent.GPA)) {
-                throw new IllegalArgumentException("GPA must be between 0 and 4");
-            }
-            student.setGPA(newStudent.GPA);
+        if (!validationUtils.isGpaValid(gpa)) {
+            throw new IllegalArgumentException("GPA must be between 0 and 4");
         }
 
-        if (newStudent.Level != null) {
-            student.setLevel(newStudent.Level);
-        }
+        Student newStudent = new Student(oldStudent.getID(), firstname, lastname, gender.toString(), gpa, level, address);
 
-        if (newStudent.Address != null) {
-            student.setAddress(newStudent.Address);
-        }
-
-        universityRepository.updateStudent(id, student);
+        universityRepository.updateStudent(id, newStudent);
         xmlUtils.convertObjectToXML(this.universityRepository);
-        return student;
+        return newStudent;
     }
 
     public void sortStudents(String attribute, String order) throws JAXBException {

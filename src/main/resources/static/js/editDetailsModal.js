@@ -72,7 +72,7 @@ async function saveChanges(studentID) {
         ...(updatedLastName && { LastName: updatedLastName }),
         ...(updatedGender && { Gender: updatedGender }),
         ...(updatedLevel && { Level: updatedLevel }),
-        ...(updatedGPA && { Gpa: updatedGPA }),
+        ...(updatedGPA && { GPA: updatedGPA }),
         ...(updatedAddress && { Address: updatedAddress })
     };
 

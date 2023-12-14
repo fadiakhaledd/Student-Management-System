@@ -14,6 +14,17 @@ public class Student {
     private Integer Level;
     private String Address;
 
+    public Student() {}
+    public Student(String ID, String firstName, String lastName, String gender, Float GPA, Integer level, String address) {
+        this.ID = ID;
+        FirstName = firstName;
+        LastName = lastName;
+        Gender = gender;
+        this.GPA = GPA;
+        Level = level;
+        Address = address;
+    }
+
     @XmlAttribute(name = "ID")
     public String getID() {
         return ID;

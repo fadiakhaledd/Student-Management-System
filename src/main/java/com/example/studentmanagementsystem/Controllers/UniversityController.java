@@ -32,7 +32,6 @@ public class UniversityController {
             @PathVariable int numberOfStudents,
             @RequestBody @NotNull StudentsListDto studentsListDto) throws JAXBException {
 
-
         if (numberOfStudents < 1) {
             return new ResponseEntity<>("Number of students must be greater than 0", HttpStatus.BAD_REQUEST);
         }
