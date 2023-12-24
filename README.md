@@ -22,7 +22,7 @@ A basic student management system with features for adding, deleting, and search
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/fadiakhaledd/student-management-system.git
+   git clone [https://github.com/fadiakhaledd/student-management-system.git](https://github.com/fadiakhaledd/Student-Management-System.git)
    
 2. Navigate to the project root directory:
 
